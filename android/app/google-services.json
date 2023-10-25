@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1066941047718",
+    "project_id": "safe-place-app-f0a30",
+    "storage_bucket": "safe-place-app-f0a30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066941047718:android:0ca4ba2c989e247d232567",
+        "android_client_info": {
+          "package_name": "com.example.safe_place_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV1U9F4XaGzK12xB-_7zBiwOPcH_yXRYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
