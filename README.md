@@ -1,6 +1,6 @@
-# safe_place_app
+# Safe Place App
 
-A new Flutter project.
+Safe place is a mini project application for meditation and journaling
 
 ## Getting Started
 
