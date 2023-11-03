@@ -1,42 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:get/get.dart';
-import 'package:safe_place_app/layouts/bottom_navbar_layout.dart';
-import 'package:safe_place_app/screens/home/home_screen.dart';
-import 'package:safe_place_app/screens/journal/journal_screen.dart';
-import 'package:safe_place_app/screens/meditate/meditate_player_screen.dart';
-import 'package:safe_place_app/screens/meditate/meditate_screen.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:safe_place_app/view/screens/auth/login_screen.dart';
+import 'package:safe_place_app/view_model/auth/login_view_model.dart';
+import 'package:safe_place_app/view_model/auth/register_view_model.dart';
+import 'package:safe_place_app/view_model/user/meditate_media_player_view_model.dart';
+import 'package:safe_place_app/view_model/user/meditate_view_model.dart';
+import 'package:safe_place_app/view_model/user/home_view_model.dart';
 import 'firebase_options.dart';
 
-void main() async {
+Future<void> main() async {
+  final String localeName = Intl.canonicalizedLocale('id_ID');
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  await initializeDateFormatting(localeName, null)
+      .then((_) => runApp(const SafePlaceApp()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class SafePlaceApp extends StatelessWidget {
+  const SafePlaceApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Safe Place App',
-      theme: ThemeData(
-        fontFamily: 'Poppins',
-        scaffoldBackgroundColor: Colors.white,
-        useMaterial3: true,
-      ),
-      home: const BottomNavbarLayout(),
-      getPages: [
-        GetPage(name: '/', page: () => const HomeScreen()),
-        GetPage(name: '/meditate', page: () => const MeditateScreen()),
-        GetPage(
-            name: '/meditate/track', page: () => const MeditatePlayerScreen()),
-        GetPage(name: '/journal', page: () => const JournalScreen()),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LoginViewModel()),
+        ChangeNotifierProvider(create: (_) => RegisterViewModel()),
+        ChangeNotifierProvider(create: (_) => UserHomeViewModel()),
+        ChangeNotifierProvider(create: (_) => UserMeditateViewModel()),
+        ChangeNotifierProvider(
+            create: (_) => UserMeditateMediaPlayerViewModel()),
       ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Safe Place App',
+        theme: ThemeData(
+          fontFamily: 'Poppins',
+          scaffoldBackgroundColor: Colors.white,
+          useMaterial3: true,
+        ),
+        home: const LoginScreen(),
+      ),
     );
   }
 }
